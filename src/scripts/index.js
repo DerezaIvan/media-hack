@@ -10,3 +10,5 @@ var marker = L.marker([55.7558, 37.6176])
 	.addTo(map)
 	.bindPopup("Пример билборда")
 	.openPopup();
+
+console.log(document.getElementById("gender"));
