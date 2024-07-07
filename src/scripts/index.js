@@ -56,8 +56,15 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	}
 
+	const optimizeButton = document.getElementById("optimize-button");
+	optimizeButton.addEventListener("click", optimize);
+
+	function optimize() {
+		handleFormSubmit()
+	}
+	
 	function handleFormSubmit(event) {
-		event.preventDefault();
+		// event.preventDefault();
 		console.log("handleFormSubmit")
 
 		const formData = new FormData(targetForm);
