@@ -94,22 +94,43 @@ document.addEventListener("DOMContentLoaded", () => {
 			areas:[],
 		};
 		console.log(params)
-		fetch(
-			`https://optimum-media-mock-5ec6b6b53ced.herokuapp.com/optimize?${new URLSearchParams(
-				params
-			)}`,
-			{
-				method: "GET",
-				mode: 'cors'
-			}
-		)
-			.then((response) => response.json())
-			.then((data) => {
+
+		async function fetchData() {
+			try {
+				const queryString = new URLSearchParams(params).toString();
+				const response = await fetch(`https://optimum-media-mock-5ec6b6b53ced.herokuapp.com/optimize?${queryString}`, {
+					method: "GET",
+					mode: 'cors'
+				});
+
+				if (!response.ok) {
+					const errorData = await response.json();
+					throw new Error(`Error: ${response.status} ${errorData.detail}`);
+				}
+
+				const data = await response.json();
 				displayOptimizationResults(data);
-			})
-			.catch((error) =>
-				console.error("Ошибка оптимизации по фильтрам:", error)
-			);
+			} catch (error) {
+				console.error("Ошибка оптимизации по фильтрам:", error);
+			}
+		}
+		fetchData();
+		// fetch(
+			// `https://optimum-media-mock-5ec6b6b53ced.herokuapp.com/optimize?${new URLSearchParams(
+				// params
+			// )}`,
+			// {
+				// method: "GET",
+				// mode: 'cors'
+			// }
+		// )
+			// .then((response) => response.json())
+			// .then((data) => {
+				// displayOptimizationResults(data);
+			// })
+			// .catch((error) =>
+				// console.error("Ошибка оптимизации по фильтрам:", error)
+			// );
 	}
 
 	function optimizeByFile(fileId) {
