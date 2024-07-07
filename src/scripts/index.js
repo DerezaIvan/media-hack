@@ -76,6 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		const districts = formData.getAll("districts");
 		console.log(income)
 
+		if (!budget) {
+			budget = 20000;
+		}
+
 		const params = {
 			file_id: "",
 			gender: gender,
@@ -85,7 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
 			income_b: true,
 			income_c: true,
 			campaign_budget: budget,
-			districts: districts.join(",")
+			billboard_count: 20000,
+			districts: [],//districts.join(",")
+			areas:[],
 		};
 		console.log(params)
 		fetch(
