@@ -60,10 +60,6 @@ select {
 	border: 1px solid #ccc;
 }
 
-#analysis {
-	margin-top: 20px;
-}
-
 #sector-analysis,
 #point-analysis {
 	margin-top: 10px;
