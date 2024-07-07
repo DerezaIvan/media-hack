@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					districtsSelect.appendChild(option);
 				});
 			})
-			.catch((error) => console.error("Ошибка загрузки районов:", error));
+			.catch((error) => console.error("Ошибка загрузки районов:", response, error));
 	}
 
 	function handleFileSelect(event) {
