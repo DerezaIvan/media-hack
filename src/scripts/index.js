@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function handleFormSubmit(event) {
 		event.preventDefault();
-		console.log(handleFormSubmit)
+		console.log("handleFormSubmit")
 
 		const formData = new FormData(targetForm);
 		const gender = formData.get("gender");
