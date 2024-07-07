@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-	var map = L.map("map").setView([55.7558, 37.6176], 12);
+	const map = L.map("map").setView([55.7558, 37.6176], 12);
 
 	L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 		attribution:
@@ -7,58 +7,133 @@ document.addEventListener("DOMContentLoaded", () => {
 		maxZoom: 18,
 	}).addTo(map);
 
-	var marker = L.marker([55.7558, 37.6176])
-		.addTo(map)
-		.bindPopup("Эта точка является примером билборда")
-		.openPopup();
+	const priceListInput = document.getElementById("price-list");
+	const targetForm = document.getElementById("target-form");
 
-	document
-		.getElementById("price-list")
-		.addEventListener("change", handleFileSelect, false);
+	priceListInput.addEventListener("change", handleFileSelect, false);
+	targetForm.addEventListener("submit", handleFormSubmit, false);
+
+	loadDistricts();
+
+	function loadDistricts() {
+		fetch("https://optimum-media-mock-5ec6b6b53ced.herokuapp.com/districts")
+			.then((response) => response.json())
+			.then((data) => {
+				const districtsSelect = document.getElementById("districts");
+
+				data.forEach((district) => {
+					const option = document.createElement("option");
+					option.value = district.id;
+					option.textContent = district.name;
+					districtsSelect.appendChild(option);
+				});
+			})
+			.catch((error) => console.error("Ошибка загрузки районов:", error));
+	}
 
 	function handleFileSelect(event) {
 		const file = event.target.files[0];
 		if (file) {
-			const reader = new FileReader();
-			reader.onload = function (e) {
-				const data = new Uint8Array(e.target.result);
-				const workbook = XLSX.read(data, { type: "array" });
+			const formData = new FormData();
+			formData.append("file", file);
 
-				const firstSheetName = workbook.SheetNames[0];
-				const worksheet = workbook.Sheets[firstSheetName];
-				const points = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-				processPoints(points);
-			};
-			reader.readAsArrayBuffer(file);
+			fetch(
+				"https://optimum-media-mock-5ec6b6b53ced.herokuapp.com/load_prices",
+				{
+					method: "POST",
+					body: formData,
+				}
+			)
+				.then((response) => response.json())
+				.then((data) => {
+					const fileId = data.file_id;
+					optimizeByFile(fileId);
+				})
+				.catch((error) => console.error("Ошибка загрузки файла:", error));
 		}
 	}
 
-	function processPoints(points) {
+	function handleFormSubmit(event) {
+		event.preventDefault();
+
+		const formData = new FormData(targetForm);
+		const gender = formData.get("gender");
+		const ageMin = formData.get("age-min");
+		const ageMax = formData.get("age-max");
+		const income = formData.get("income");
+		const budget = formData.get("budget");
+		const districts = formData.getAll("districts");
+
+		const params = {
+			gender,
+			age_from: ageMin,
+			age_to: ageMax,
+			campaign_budget: budget,
+			districts: districts.join(","),
+		};
+
+		fetch(
+			`https://optimum-media-mock-5ec6b6b53ced.herokuapp.com/optimize?${new URLSearchParams(
+				params
+			)}`,
+			{
+				method: "GET",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				displayOptimizationResults(data);
+			})
+			.catch((error) =>
+				console.error("Ошибка оптимизации по фильтрам:", error)
+			);
+	}
+
+	function optimizeByFile(fileId) {
+		fetch(
+			`https://optimum-media-mock-5ec6b6b53ced.herokuapp.com/optimize_file?file_id=${fileId}`,
+			{
+				method: "GET",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				displayOptimizationResults(data);
+			})
+			.catch((error) => console.error("Ошибка оптимизации по файлу:", error));
+	}
+
+	function displayOptimizationResults(data) {
+		const points = data.points;
+		const sectorResults = document.getElementById("sector-results");
 		const pointResults = document.getElementById("point-results");
+
+		sectorResults.innerHTML = "";
 		pointResults.innerHTML = "";
 
 		points.forEach((point, index) => {
-			if (index === 0) return;
+			L.marker([point.lat, point.lon])
+				.addTo(map)
+				.bindPopup(
+					`Оптимальная точка ${index + 1}: ${point.lat}, ${
+						point.lon
+					} - Азимут: ${point.azimuth}`
+				);
 
-			const [lat, lng] = point;
-			if (lat && lng) {
-				L.marker([lat, lng])
-					.addTo(map)
-					.bindPopup(`Точка ${index}: ${lat}, ${lng}`);
-
-				// Пример анализа охвата
-				const coverage = calculateCoverage(lat, lng);
-				const resultItem = document.createElement("li");
-				resultItem.textContent = `Точка ${index}: ${lat}, ${lng} - Прогнозное значение охвата: ${coverage}`;
-				pointResults.appendChild(resultItem);
-			}
+			const pointItem = document.createElement("li");
+			pointItem.textContent = `Оптимальная точка ${index + 1}: ${point.lat}, ${
+				point.lon
+			} - Азимут: ${point.azimuth}`;
+			pointResults.appendChild(pointItem);
 		});
-	}
 
-	function calculateCoverage(lat, lng) {
-		// Пример простой функции для прогнозирования охвата
-		// Здесь нужно добавить ваш алгоритм расчета охвата
-		return Math.floor(Math.random() * 1000); // Случайное значение для примера
+		const sectors = data.sectors;
+		sectors.forEach((sector, index) => {
+			const sectorItem = document.createElement("li");
+			sectorItem.textContent = `Сектор ${index + 1}: ${
+				sector.name
+			} - Оценка охвата: ${sector.coverage}`;
+			sectorResults.appendChild(sectorItem);
+		});
 	}
 });
