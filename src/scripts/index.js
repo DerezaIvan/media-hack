@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function handleFormSubmit(event) {
 		event.preventDefault();
+		console.log(handleFormSubmit)
 
 		const formData = new FormData(targetForm);
 		const gender = formData.get("gender");
@@ -72,16 +73,16 @@ document.addEventListener("DOMContentLoaded", () => {
 			age_from: ageMin,
 			age_to: ageMax,
 			campaign_budget: budget,
-			districts: districts.join(","),
-			mode: 'cors'
+			districts: districts.join(",")
 		};
-
+		console.log(params)
 		fetch(
 			`https://optimum-media-mock-5ec6b6b53ced.herokuapp.com/optimize?${new URLSearchParams(
 				params
 			)}`,
 			{
 				method: "GET",
+				mode: 'cors'
 			}
 		)
 			.then((response) => response.json())
