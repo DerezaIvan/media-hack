@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				{
 					method: "POST",
 					body: formData,
+					mode: 'cors'
 				}
 			)
 				.then((response) => response.json())
@@ -72,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			age_to: ageMax,
 			campaign_budget: budget,
 			districts: districts.join(","),
+			mode: 'cors'
 		};
 
 		fetch(
@@ -96,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			`https://optimum-media-mock-5ec6b6b53ced.herokuapp.com/optimize_file?file_id=${fileId}`,
 			{
 				method: "GET",
+				mode: 'cors'
 			}
 		)
 			.then((response) => response.json())
