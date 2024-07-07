@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		const ageMin = formData.get("age-min");
 		const ageMax = formData.get("age-max");
 		const income = formData.get("income");
-		const budget = formData.get("budget");
+		budget = formData.get("budget");
 		const districts = formData.getAll("districts");
 		console.log(income)
 
