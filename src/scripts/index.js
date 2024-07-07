@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		console.log(income)
 
 		if (!budget) {
-			budget = 20000;
+			budget = 20000
 		}
 
 		const params = {
