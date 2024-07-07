@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Оптимум лаб</title>
+		<title>Оптимум Лаб</title>
 		<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 		<link rel="stylesheet" href="./src/styles/style.css" />
 		<script src="https://unpkg.com/leaflet/dist/leaflet.js" defer></script>
@@ -12,7 +12,7 @@
 	</head>
 	<body>
 		<header class="header">
-			<h1>Оптимум лаб</h1>
+			<h1>Оптимум Лаб</h1>
 		</header>
 		<main class="page">
 			<section class="map">
@@ -44,7 +44,12 @@
 						<!-- Опции будут добавлены динамически -->
 					</select>
 					<label for="price-list">Загрузить файл с ценами (CSV/Excel):</label>
-					<input type="file" id="price-list" accept=".csv, .xls, .xlsx" />
+					<input
+						class="btn-file"
+						type="file"
+						id="price-list"
+						accept=".csv, .xls, .xlsx"
+					/>
 					<button type="button" id="optimize-button" class="btn-optimize">
 						Оптимизировать
 					</button>
@@ -63,7 +68,7 @@
 			</section>
 		</main>
 		<footer class="footer">
-			<p>&copy; 2024 Опмтимум лаб</p>
+			<p>&copy; 2024 Оптимум Лаб</p>
 		</footer>
 	</body>
 </html>

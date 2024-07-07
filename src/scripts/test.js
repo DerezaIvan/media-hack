@@ -24,9 +24,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	const optimizeButton = document.getElementById("optimize-button");
-	optimizeButton.addEventListener("click", optimize());
+	optimizeButton.addEventListener("click", optimize);
 
 	function optimize() {
+		// Очищаем предыдущие результаты перед обновлением
+		clearResults();
+
 		// Собираем параметры фильтров
 		var gender = document.getElementById("gender").value;
 		var ageMin = document.getElementById("age-min").value;
@@ -53,7 +56,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		// Выводим результаты оптимизации на страницу
 		var sectorResults = document.getElementById("sector-results");
-		sectorResults.innerHTML = "";
 		sectors.forEach(function (sector) {
 			var li = document.createElement("li");
 			li.textContent = `${sector.name}: Охват ${Math.round(
@@ -71,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		// Выводим результаты прогноза на страницу
 		var pointResults = document.getElementById("point-results");
-		pointResults.innerHTML = "";
 		points.forEach(function (point) {
 			var li = document.createElement("li");
 			li.textContent = `Точка (${point.lon}, ${point.lat}): Охват ${Math.round(
@@ -79,6 +80,14 @@ document.addEventListener("DOMContentLoaded", function () {
 			)}%`;
 			pointResults.appendChild(li);
 		});
+	}
+
+	// Очистка результатов
+	function clearResults() {
+		var sectorResults = document.getElementById("sector-results");
+		var pointResults = document.getElementById("point-results");
+		sectorResults.innerHTML = "";
+		pointResults.innerHTML = "";
 	}
 
 	// Добавим районы для выбора

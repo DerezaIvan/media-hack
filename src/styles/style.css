@@ -102,4 +102,6 @@ select {
 	background-color: #333;
 	color: white;
 	font-size: 16px;
+	text-transform: uppercase;
+	font-weight: bold;
 }
