@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		const income = formData.get("income");
 		const budget = formData.get("budget");
 		const districts = formData.getAll("districts");
-		console.loc(income)
+		console.log(income)
 
 		const params = {
 			file_id: "",
