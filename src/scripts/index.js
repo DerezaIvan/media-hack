@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			.then((response) => response.json())
 			.then((data) => {
 				const districtsSelect = document.getElementById("districts");
-				console.error("data:", data))
+				console.error("data:", data)
 
 				data.forEach((district) => {
 					const option = document.createElement("option");
