@@ -21,17 +21,16 @@ document.addEventListener("DOMContentLoaded", () => {
 				})
 			.then((response) => response.json())
 			.then((data) => {
-				const districtsSelect = document.getElementById("districts");
-				console.error("data:", data)
+				// const districtsSelect = document.getElementById("districts");
 
-				data.forEach((district) => {
-					const option = document.createElement("option");
-					option.value = district.id;
-					option.textContent = district.name;
-					districtsSelect.appendChild(option);
-				});
+				// data.forEach((district) => {
+					// const option = document.createElement("option");
+					// option.value = district.id;
+					// option.textContent = district.name;
+					// districtsSelect.appendChild(option);
+				// });
 			})
-			.catch((error) => console.error("Ошибка загрузки районов:", response, error));
+			.catch((error) => console.error("Ошибка загрузки районов:", error));
 	}
 
 	function handleFileSelect(event) {
