@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function loadDistricts() {
 		fetch("https://optimum-media-mock-5ec6b6b53ced.herokuapp.com/districts", {
-					mode: 'no-cors'
+					mode: 'cors'
 				})
 			.then((response) => console.log(response))
 			.then((data) => {
