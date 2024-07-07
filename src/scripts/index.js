@@ -74,11 +74,16 @@ document.addEventListener("DOMContentLoaded", () => {
 		const income = formData.get("income");
 		const budget = formData.get("budget");
 		const districts = formData.getAll("districts");
+		console.loc(income)
 
 		const params = {
-			gender,
+			file_id: "",
+			gender: gender,
 			age_from: ageMin,
 			age_to: ageMax,
+			income_a: true,
+			income_b: true,
+			income_c: true,
 			campaign_budget: budget,
 			districts: districts.join(",")
 		};
