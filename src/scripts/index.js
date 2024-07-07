@@ -16,19 +16,19 @@ document.addEventListener("DOMContentLoaded", () => {
 	loadDistricts();
 
 	function loadDistricts() {
-		fetch("https://optimum-media-mock-5ec6b6b53ced.herokuapp.com/districts", {
+		fetch("https://optimum-media-mock-5ec6b6b53ced.herokuapp.com/districts" {
 					mode: 'cors'
 				})
-			.then((response) => console.log(response))
+			.then((response) => response.json())
 			.then((data) => {
-				// const districtsSelect = document.getElementById("districts");
+				const districtsSelect = document.getElementById("districts");
 
-				// data.forEach((district) => {
-					// const option = document.createElement("option");
-					// option.value = district.id;
-					// option.textContent = district.name;
-					// districtsSelect.appendChild(option);
-				// });
+				data.forEach((district) => {
+					const option = document.createElement("option");
+					option.value = district.id;
+					option.textContent = district.name;
+					districtsSelect.appendChild(option);
+				});
 			})
 			.catch((error) => console.error("Ошибка загрузки районов:", error));
 	}
